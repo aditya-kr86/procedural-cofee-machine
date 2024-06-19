@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Machine</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Coffee Machine</h1>
+        <div class="controls">
+            <button onclick="orderCoffee('espresso')">Espresso</button>
+            <button onclick="orderCoffee('latte')">Latte</button>
+            <button onclick="orderCoffee('cappuccino')">Cappuccino</button>
+            <button onclick="showResources()">Show Resources</button>
+        </div>
+        <div id="coin-input" class="coin-input">
+            <h2>Insert Coins</h2>
+            <label>Quarters: <input type="number" id="quarters" value="0"></label>
+            <label>Dimes: <input type="number" id="dimes" value="0"></label>
+            <label>Nickels: <input type="number" id="nickels" value="0"></label>
+            <label>Pennies: <input type="number" id="pennies" value="0"></label>
+            <button onclick="processOrder()">Submit</button>
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
