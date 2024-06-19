@@ -47,6 +47,7 @@ function orderCoffee(coffeeName) {
 function checkResources(coffeeName) {
     const ingredients = MENU[coffeeName].ingredients;
     let sufficient = true;
+    document.getElementById('message').textContent = '';
     for (let ingredient in ingredients) {
         if (resources[ingredient] < ingredients[ingredient]) {
             sufficient = false;
@@ -62,23 +63,23 @@ function showResources() {
 }
 
 function processOrder() {
-    const quarters = parseInt(document.getElementById('quarters').value);
-    const dimes = parseInt(document.getElementById('dimes').value);
-    const nickels = parseInt(document.getElementById('nickels').value);
-    const pennies = parseInt(document.getElementById('pennies').value);
+    const quarters = parseInt(document.getElementById('quarters').value) || 0;
+    const dimes = parseInt(document.getElementById('dimes').value) || 0;
+    const nickels = parseInt(document.getElementById('nickels').value) || 0;
+    const pennies = parseInt(document.getElementById('pennies').value) || 0;
 
     const total = (quarters * 0.25) + (dimes * 0.10) + (nickels * 0.05) + (pennies * 0.01);
 
     if (total >= MENU[selectedCoffee].cost) {
         const change = total - MENU[selectedCoffee].cost;
-        alert(`Here is your ${selectedCoffee} ☕. Your change is $${change.toFixed(2)}`);
+        document.getElementById('message').textContent = `Here is your ${selectedCoffee} ☕. Your change is $${change.toFixed(2)}`;
         reduceResources(selectedCoffee);
         resources.money += MENU[selectedCoffee].cost;
+        askForAnotherCup();
     } else {
-        alert('Not enough money. Money refunded.');
+        document.getElementById('message').textContent = 'Not enough money. Money refunded.';
+        document.getElementById('coin-input').style.display = 'none';
     }
-
-    document.getElementById('coin-input').style.display = 'none';
     resetCoinInputs();
 }
 
@@ -89,8 +90,28 @@ function reduceResources(coffeeName) {
 }
 
 function resetCoinInputs() {
-    document.getElementById('quarters').value = 0;
-    document.getElementById('dimes').value = 0;
-    document.getElementById('nickels').value = 0;
-    document.getElementById('pennies').value = 0;
+    document.getElementById('quarters').value = '';
+    document.getElementById('dimes').value = '';
+    document.getElementById('nickels').value = '';
+    document.getElementById('pennies').value = '';
+}
+
+function askForAnotherCup() {
+    document.getElementById('another-cup').innerHTML = `
+        <p>Would you like to make another cup of coffee?</p>
+        <button onclick="resetCoffeeMachine()">Yes</button>
+        <button onclick="endCoffeeMachine()">No</button>
+    `;
+}
+
+function resetCoffeeMachine() {
+    document.getElementById('coin-input').style.display = 'none';
+    document.getElementById('message').textContent = '';
+    document.getElementById('another-cup').innerHTML = '';
+}
+
+function endCoffeeMachine() {
+    document.getElementById('coin-input').style.display = 'none';
+    document.getElementById('message').textContent = 'Thank you! Have a nice day!';
+    document.getElementById('another-cup').innerHTML = '';
 }
